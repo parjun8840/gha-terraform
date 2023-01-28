@@ -6,7 +6,7 @@ on:
         description: 'Pull request number'
         required: true
 jobs:
-  deploy-to-dev-or-stg:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Verify Pull Request Number
@@ -90,7 +90,7 @@ jobs:
 
   slack-notify:
     runs-on: ubuntu-latest
-    needs: deploy-to-dev-or-stg
+    needs: deploy
     steps:
       - name: Post to a Slack channel
         id: slack
@@ -101,6 +101,6 @@ jobs:
         # For posting a rich message using Block Kit
           payload: |
             {
-              "text": "Deployment of  PR: ${{ github.event.inputs.PR_number  }} started . Job status: ${{ needs.deploy-to-dev-or-stg.outputs.job-status }}\n" }
+              "text": "Deployment of  PR: ${{ github.event.inputs.PR_number  }} started. Status of Job:  ${{ needs.deploy.outputs.job-status }}\n" }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
