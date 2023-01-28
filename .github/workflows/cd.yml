@@ -1,4 +1,4 @@
-name: Create, Deploy to Dev or Staging Env
+name: Deploy to Prod Env
 on:
   pull_request:
     branches:
