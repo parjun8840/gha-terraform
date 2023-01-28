@@ -5,8 +5,6 @@ on:
       PR_number:
         description: 'Pull request number'
         required: true
-#permissions:
-#  contents: write
 jobs:
   deploy-to-dev-or-stg:
     runs-on: ubuntu-latest
@@ -89,6 +87,10 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
+
+  slack-notify:
+    runs-on: ubuntu-latest
+    steps:
       - name: Post to a Slack channel
         id: slack
         uses: slackapi/slack-github-action@v1.23.0
