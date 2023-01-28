@@ -32,68 +32,7 @@ jobs:
             console.log("Base Branch Name: " + response.data.base.ref);
             return response.data.head.ref;
             }
-      - uses: actions/checkout@v3
-      - uses: hashicorp/setup-terraform@v2
-
-      - name: Terraform fmt
-        id: fmt
-        run: terraform fmt -check
-        continue-on-error: true
-
-      - name: Terraform Init
-        id: init
-        run: terraform init
-
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate -no-color
-
-      - name: Terraform Plan
-        id: plan
-        run: terraform plan -no-color
-        continue-on-error: true
-
-      - uses: actions/github-script@v6
-        #if: github.event_name == 'pull_request' #we don`t need this as the event is not pull_request
-        env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-            <details><summary>Validation Output</summary>
-
-            \`\`\`\n
-            ${{ steps.validate.outputs.stdout }}
-            \`\`\`
-
-            </details>
-
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-
-            <details><summary>Show Plan</summary>
-
-            \`\`\`\n
-            ${process.env.PLAN}
-            \`\`\`
-            #### Please Merge the PR once all checks are passed
-            </details>
-
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
-
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
-
-  slack_msg_send:
-    #if: github.event.pull_request.base.ref == 'main'
-    runs-on: ubuntu-latest
-    steps:
+        ############ github.event_name isn't  'pull_request'##########
       - name: Post to a Slack channel
         id: slack
         uses: slackapi/slack-github-action@v1.23.0
@@ -103,6 +42,6 @@ jobs:
         # For posting a rich message using Block Kit
           payload: |
             {
-              "text": "Deployment of  PR status: ${{ github.event.action }} :\n URL of the PR: ${{ github.event.pull_request.html_url }}, Target Branch- ${{ github.event.pull_request.base.ref }}\n PR Title- ${{ github.event.pull_request.title }}, Requested By: ${{ github.event.pull_request.user.login }}" }
+              "text": "Deployment of  PR status: ${{ response.data.state }} :\n URL of the PR: ${{ github.event.pull_request.html_url }}, Target Branch- ${{ github.event.pull_request.base.ref }}\n PR Title- ${{ response.data.title }}, Requested By: ${{ response.data.user.login }}" }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
