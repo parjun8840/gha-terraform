@@ -1,17 +1,12 @@
-name: Setting up Environment
-#This workflow will run only when the PR is created on the "main" branch
+name: Create & Deploy to Dev OR Staging Env
 on:
-  pull_request:
-    branches:
-      - main
-
-defaults:
-  run:
-    shell: bash
-permissions:
-  pull-requests: write
+  workflow_dispatch:
+    inputs:
+      PR_number:
+        description: 'Pull request number'
+        required: true
 jobs:
-  terraform-pr-check:
+  deploy-to-dev-or-stg:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -60,7 +55,7 @@ jobs:
             \`\`\`\n
             ${process.env.PLAN}
             \`\`\`
-
+            #### Please Merge the PR once all checks are passed
             </details>
 
             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
@@ -71,3 +66,4 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
+
