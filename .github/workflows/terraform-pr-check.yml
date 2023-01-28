@@ -9,6 +9,8 @@ on:
   pull_request:
 
 defaults:
+  run:
+    shell: bash
 permissions:
   pull-requests: write
 jobs:
