@@ -1,7 +1,9 @@
 name: Setting up Environment
-
+#This workflow will run only when the PR is created on the "main" branch
 on:
   pull_request:
+    branches:
+      - main
 
 defaults:
   run:
