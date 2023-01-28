@@ -42,6 +42,6 @@ jobs:
         # For posting a rich message using Block Kit
           payload: |
             {
-              "text": "Deployment of  PR: ${{ github.event.inputs.PR_number  }} started\n }
+              "text": "Deployment of  PR: ${{ github.event.inputs.PR_number  }} started \n" }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
