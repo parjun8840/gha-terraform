@@ -5,7 +5,7 @@ variable "public_subnet" {
 
 variable "ingress_url" {
   type = string
-  default = "https://parjun8840.com"
+  default = "https://parjun8840.org"
 }
 
 variable "name" {
