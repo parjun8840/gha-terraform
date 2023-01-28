@@ -1,4 +1,4 @@
-name: Create & Deploy to Dev OR Staging Env
+name: Create, Deploy to Dev or Staging Env
 on:
   workflow_dispatch:
     inputs:
