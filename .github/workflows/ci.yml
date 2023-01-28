@@ -27,6 +27,7 @@ jobs:
               throw new Error('Pull request is not open or number is not valid!');
             } else {
             console.log("PR ref: " + response.data.head.ref);
+            console.log("Status of the PR ref: " + response.data.state);
             return response.data.head.ref;
             }
       - uses: actions/checkout@v3
