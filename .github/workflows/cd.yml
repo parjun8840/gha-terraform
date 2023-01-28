@@ -1,6 +1,6 @@
 name: Create, Deploy to Dev or Staging Env
 on:
-  push:
+  pull_request:
     branches:
       - 'main'
   workflow_dispatch:
