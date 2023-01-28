@@ -12,6 +12,9 @@ jobs:
   deploy_production:
     environment: production
     runs-on: ubuntu-latest
+    outputs:
+      PR_URL: ${{ steps.verify_pr_number.response.data.base.url }}
+      PR_BRANCH: ${{ steps.verify_pr_number.response.data.base.ref }}
     steps:
       - name: Verify Pull Request Number
         uses: actions/github-script@v6.4.0
@@ -111,6 +114,6 @@ jobs:
         # For posting a rich message using Block Kit
           payload: |
             {
-              "text": "Deployment of  PR: ${{ github.event.inputs.PR_number  }} started. Status of Job:  ${{ needs.deploy_production.outputs.job-status }}\n" }
+              "text": "Deployment of  PR: ${{ github.event.inputs.PR_number  }} started. Status of Job:  ${{ needs.deploy_production.outputs.PR_URL }}\n" }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
