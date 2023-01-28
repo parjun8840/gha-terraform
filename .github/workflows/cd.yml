@@ -52,13 +52,13 @@ jobs:
         id: validate
         run: terraform validate -no-color
 
-      - name: Terraform Plan
-        id: plan
-        run: terraform plan -no-color
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply -auto-approve -input=false
         continue-on-error: true
       - uses: actions/github-script@v6
         env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+          APPLY: "terraform\n${{ steps.apply.outputs.stdout }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -73,12 +73,12 @@ jobs:
 
             </details>
 
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            #### Terraform Apply 📖\`${{ steps.apply.outcome }}\`
 
-            <details><summary>Show Plan</summary>
+            <details><summary>Show Apply</summary>
 
             \`\`\`\n
-            ${process.env.PLAN}
+            ${process.env.APPLY}
             \`\`\`
 
             </details>
