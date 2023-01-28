@@ -1,11 +1,6 @@
 name: Setting up Environment
 
 on:
-  workflow_dispatch:
-    inputs:
-      PR_number:
-        description: 'Pull request number'
-        required: true
   pull_request:
 
 defaults:
