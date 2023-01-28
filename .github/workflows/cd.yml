@@ -56,6 +56,11 @@ jobs:
         id: apply
         run: terraform apply -auto-approve -input=false
         continue-on-error: true
+      - name: List files and directories
+        run: |
+          ls -lart
+          echo "----listing tree----"
+          ls -lrtR
       - uses: actions/github-script@v6
         env:
           APPLY: "terraform\n${{ steps.apply.outputs.stdout }}"
