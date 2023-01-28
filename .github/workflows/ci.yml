@@ -5,8 +5,8 @@ on:
       PR_number:
         description: 'Pull request number'
         required: true
-#permissions:
-#  contents: write
+permissions:
+  contents: write
 jobs:
   deploy-to-dev-or-stg:
     runs-on: ubuntu-latest
@@ -35,6 +35,8 @@ jobs:
             return response.data.head.ref;
             }
         ############ github.event_name isn't  'pull_request'##########
+      - uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v2
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
