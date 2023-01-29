@@ -16,8 +16,8 @@ def create_ticket():
 			}
 
 		new_issue = jira_connection.create_issue(fields=issue_dict)
-		print(f'{new_issue.key})
-		return (f'{new_issue.key})
+		print(f'{new_issue.key}')
+		return (f'{new_issue.key}')
 	except Exception as e:
 		printf(f'Error while creating Jira Ticket: {e}')
 		return ''
