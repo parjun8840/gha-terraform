@@ -120,7 +120,7 @@ jobs:
           JIRA_SERVER_URL: ${{ secrets.JIRA_SERVER_URL }}
           JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
           JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
-          JIRA_DESCRIPTION: "PR: ${{ needs.deploy_production.outputs.PR_DETAILS  }}"
+          JIRA_DESCRIPTION: "PR: ${{ steps.verify_pr_number.outputs.result }}"
           JIRA_ORG_ID: ${{ secrets.JIRA_ORG_ID }}
           JIRA_CREATE_SCRIPT: script_jira.py
         run: |
