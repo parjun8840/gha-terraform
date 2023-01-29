@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       PR_URL: "https://github.com/parjun8840/gha-terraform/pull/4"
-      PR_BRANCH: ${{ steps.verify_pr_number.outputs.result }}
+      PR_DETAILS: ${{ steps.verify_pr_number.outputs.result }}
     steps:
       - name: Verify Pull Request Number
         uses: actions/github-script@v6.4.0
@@ -38,7 +38,7 @@ jobs:
             console.log("Event Name: " + github.event_name);
             console.log("Base Branch Name: " + response.data.base.ref);
             console.log("PR URL: " + response.data.url);
-            return response.data.url;
+            return "PR URL: " + response.data.html_url + ", PR Title: " + response.data.title;
             }
         ############ github.event_name isn't  'pull_request'##########
       - uses: actions/checkout@v3
@@ -115,6 +115,6 @@ jobs:
         # For posting a rich message using Block Kit
           payload: |
             {
-              "text": "Deployment of  PR: ${{ github.event.inputs.PR_number  }} started. Status of Job:  ${{ needs.deploy_production.outputs.PR_BRANCH }}\n" }
+              "text": "Deployment of  PR: ${{ github.event.inputs.PR_number  }} started. Description of PR:  ${{ needs.deploy_production.outputs.PR_DETAILS }}\n, Job Status: ${{ needs.deploy_production.result }}" }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
