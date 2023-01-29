@@ -107,10 +107,12 @@ jobs:
           python-version: 3.9
 
       - name: Install Python Dependencies
+        if: success()
         run: |
           python -m pip install --upgrade pip
           pip install jira
       - name: Create Jira Ticket
+        if: success()
         id: create_jira
         working-directory: ./scripts/
         env:
