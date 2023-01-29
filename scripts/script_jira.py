@@ -8,9 +8,7 @@ def create_ticket():
 			'project': {'key': os.environ['JIRA_ORG_ID']},
 			'summary': os.environ['JIRA_SUMMARY'],
 			'description': os.environ['JIRA_DESCRIPTION'],
-			'issuetype': {'name': 'Task'},
-			'Team': ['EKS'],
-			'Subteam': ['OnCall']
+			'issuetype': {'name': 'Task'}
 
 			}
 
