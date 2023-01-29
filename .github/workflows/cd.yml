@@ -125,6 +125,7 @@ jobs:
           JIRA_CREATE_SCRIPT: script_jira.py
         run: |
           JIRA_TICKET=$(python ${{ env.JIRA_CREATE_SCRIPT}})
+          echo "JIRA_TICKET=$JIRA_TICKET"
           echo "JIRA_TICKET=$JIRA_TICKET" >> $GITHUB_OUTPUT
 
   slack-notify:
