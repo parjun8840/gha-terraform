@@ -1,3 +1,5 @@
+import os
+from jira import JIRA
 def create_ticket():
 	try:
 		jira_connection = JIRA(
@@ -19,7 +21,7 @@ def create_ticket():
 		print(f'{new_issue.key}')
 		return (f'{new_issue.key}')
 	except Exception as e:
-		printf(f'Error while creating Jira Ticket: {e}')
+		print(f'Error while creating Jira Ticket: {e}')
 		return ''
 if __name__ == '__main__':
 	create_ticket()
