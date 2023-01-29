@@ -121,6 +121,7 @@ jobs:
           JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
           JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
           JIRA_DESCRIPTION: "PR: ${{ needs.deploy_production.outputs.PR_DETAILS  }}"
+          JIRA_ORG_ID: ${{ secrets.JIRA_ORG_ID }}
           JIRA_CREATE_SCRIPT: script_jira.py
         run: |
           JIRA_TICKET=$(python ${{ env.JIRA_CREATE_SCRIPT}})

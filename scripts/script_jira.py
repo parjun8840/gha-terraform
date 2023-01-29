@@ -8,7 +8,7 @@ def create_ticket():
 		)
 
 		issue_dict = {
-			'project': {'key': 'pixie'},
+			'project': {'key': os.environ['JIRA_ORG_ID']},
 			'summary': os.environ['JIRA_SUMMARY'],
 			'description': os.environ['JIRA_DESCRIPTION'],
 			'issuetype': {'name': 'Task'},
