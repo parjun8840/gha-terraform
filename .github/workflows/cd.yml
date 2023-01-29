@@ -37,7 +37,8 @@ jobs:
             console.log("Status of the PR ref: " + response.data.state);
             console.log("Event Name: " + github.event_name);
             console.log("Base Branch Name: " + response.data.base.ref);
-            return response.data.head.ref;
+            console.log("PR URL: " + response.data.url);
+            return response.data.url;
             }
         ############ github.event_name isn't  'pull_request'##########
       - uses: actions/checkout@v3
