@@ -100,15 +100,25 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
+      - name: Set up Python
+        if: success()
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install jira
       - name: Create Jira Ticket
         id: create_jira
         working-directory: ./scripts/
         env:
-          JIRA_SUMMARY: ${{ needs.deploy_production.outputs.PR_DETAILS }}
-          JIRA_SERVER_URL: ${{ serets.JIRA_SERVER_URL }}
-          JIRA_TOKEN: ${{ serets.JIRA_TOKEN }}
-          JIRA_EMAIL: ${{ serets.JIRA_EMAIL }}
-          JIRA_DESCRIPTION: "PR: ${{ github.event.inputs.PR_number  }} Prod depoyment started"
+          JIRA_SUMMARY: "PR: ${{ github.event.inputs.PR_number }} Prod depoyment started"
+          JIRA_SERVER_URL: ${{ secrets.JIRA_SERVER_URL }}
+          JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_DESCRIPTION: "PR: ${{ needs.deploy_production.outputs.PR_DETAILS  }}"
           JIRA_CREATE_SCRIPT: jira.py
         run: |
           JIRA_TICKET=$(python ${{ env.JIRA_CREATE_SCRIPT}})
