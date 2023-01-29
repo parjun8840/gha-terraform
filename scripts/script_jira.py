@@ -2,7 +2,7 @@ import os
 from jira import JIRA
 def create_ticket():
 	try:
-		jira_connection = JIRA(basic_auth=(os.environ['JIRA_EMAIL'], os.environ['JIRA_TOKEN']))
+		jira_connection = JIRA(basic_auth=(os.environ['JIRA_EMAIL'], os.environ['JIRA_TOKEN']), server=os.environ['JIRA_SERVER_URL'])
 
 		issue_dict = {
 			'project': {'key': os.environ['JIRA_ORG_ID']},
