@@ -13,7 +13,7 @@ jobs:
     environment: production
     runs-on: ubuntu-latest
     outputs:
-      PR_URL: "https://github.com/parjun8840/gha-terraform/pull/4"
+      JIRA_TICKET: ${{ steps.create_jira.outputs.JIRA_TICKET }}
       PR_DETAILS: ${{ steps.verify_pr_number.outputs.result }}
     steps:
       - name: Verify Pull Request Number
@@ -100,6 +100,19 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
+      - name: Create Jira Ticket
+        id: create_jira
+        working-directory: ./scripts/
+        env:
+          JIRA_SUMMARY: ${{ needs.deploy_production.outputs.PR_DETAILS }}
+          JIRA_SERVER_URL: ${{ serets.JIRA_SERVER_URL }}
+          JIRA_TOKEN: ${{ serets.JIRA_TOKEN }}
+          JIRA_EMAIL: ${{ serets.JIRA_EMAIL }}
+          JIRA_DESCRIPTION: "PR: ${{ github.event.inputs.PR_number  }} Prod depoyment started"
+          JIRA_CREATE_SCRIPT: jira.py
+        run: |
+          JIRA_TICKET=$(python ${{ env.JIRA_CREATE_SCRIPT}})
+          echo "JIRA_TICKET=$JIRA_TICKET"
 
   slack-notify:
     environment: production
@@ -115,6 +128,6 @@ jobs:
         # For posting a rich message using Block Kit
           payload: |
             {
-              "text": "Deployment of  PR: ${{ github.event.inputs.PR_number  }} started.\n\nDescription of PR:-  \n\t${{ needs.deploy_production.outputs.PR_DETAILS }}\n\tDeployment Job Status: ${{ needs.deploy_production.result }}" }
+              "text": "Deployment of  PR: ${{ github.event.inputs.PR_number  }} started.\n\nDescription of PR:-  \n\t${{ needs.deploy_production.outputs.PR_DETAILS }}\n\tDeployment Job Status: ${{ needs.deploy_production.result }}\n\nJIRA_TICKET: ${{ needs.deploy_production.outputs.JIRA_TICKET }}" }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
